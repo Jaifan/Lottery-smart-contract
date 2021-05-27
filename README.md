@@ -1,24 +1,12 @@
 # TypeScript Node Starter
 
 The main purpose of this repository is to show a working Node.js API Server + front-end project and workflow for writing Node code in TypeScript.
+The project has been configured for Gitpod's ready-to-code dev environments.
 
-It is not a goal to be a comprehensive and definitive guide to making a TypeScript and Node project, but as a working reference maintained by the community. If you are interested in starting a new TypeScript project - check out the bootstrapping tools reference in [the TypeScript Website](https://www.typescriptlang.org/docs/home.html)
-
-
-[![Dependency Status](https://david-dm.org/Microsoft/TypeScript-Node-Starter.svg)](https://david-dm.org/Microsoft/TypeScript-Node-Starter) [![Build Status](https://travis-ci.org/Microsoft/TypeScript-Node-Starter.svg?branch=master)](https://travis-ci.org/Microsoft/TypeScript-Node-Starter)
-
-**Live Demo**: [https://typescript-node-starter.azurewebsites.net/](https://typescript-node-starter.azurewebsites.net/)
-
-![image](https://user-images.githubusercontent.com/820883/36764267-abbdb7f8-1be0-11e8-9678-2a9ea448d7f8.png)
-
-
+[![Gitpod ready-to-code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 # Table of contents:
 
-- [Pre-reqs](#pre-reqs)
 - [Getting started](#getting-started)
-- [Deploying the app](#deploying-the-app)
-	- [Pre-reqs](#Prerequisites)
-	- [Deploying to Azure App Service](#deploying-to-azure-app-service)
 - [TypeScript + Node](#typescript--node)
 	- [Getting TypeScript](#getting-typescript)
 	- [Project Structure](#project-structure)
@@ -31,157 +19,23 @@ It is not a goal to be a comprehensive and definitive guide to making a TypeScri
 	- [`dependencies`](#dependencies)
 	- [`devDependencies`](#devdependencies)
 - [Hackathon Starter Project](#hackathon-starter-project)
-
-# Pre-reqs
-To build and run this app locally you will need a few things:
-- Install [Node.js](https://nodejs.org/en/)
-- Install [MongoDB](https://docs.mongodb.com/manual/installation/)
-- Install [VS Code](https://code.visualstudio.com/)
-
 # Getting started
-- Clone the repository
-```
-git clone --depth=1 https://github.com/Microsoft/TypeScript-Node-Starter.git <project_name>
-```
-- Install dependencies
-```
-cd <project_name>
-npm install
-```
-- Configure your mongoDB server
-```bash
-# create the db directory
-sudo mkdir -p /data/db
-# give the db correct read/write permissions
-sudo chmod 777 /data/db
 
-# starting from macOS 10.15 even the admin cannot create directory at root
-# so lets create the db directory under the home directory.
-mkdir -p ~/data/db
-# user account has automatically read and write permissions for ~/data/db.
-```
-- Start your mongoDB server (you'll probably want another command prompt)
-```bash
-mongod
+1. Create a fresh project in your account based on this [template](https://github.com/gitpod-io/typescript-node-starter/generate).
 
-# on macOS 10.15 or above the db directory is under home directory
-mongod --dbpath ~/data/db
-```
-- Build and run the project
-```
-npm run build
-npm start
-```
-Or, if you're using VS Code, you can use `cmd + shift + b` to run the default build task (which is mapped to `npm run build`), and then you can use the command palette (`cmd + shift + p`) and select `Tasks: Run Task` > `npm: start` to run `npm start` for you.
+1. Install Gitpod's [GitHub App](https://github.com/apps/gitpod-io/installations/new) on your account.<br/>
+The app will install a webook on your project to get informed when branches are pushed or updated. Gitpod will then prebuild your dev environments ahead of time, so noone has to wait for dependency installation and initialization anymore.
+
+1. Run your first prebuild by prefixing https://gitpod.io#prebuild/ to the URL of the repository.<br/>
+The revised URL is: `https://gitpod.io/#prebuild/https://github.com/<orgname>/<projectname>/`.<br/>
+Gitpod displays the prebuild logs by running the init commands in the `.gitpod.yml` file and starts a first workspace based on the results afterwards. Later, when you create a new workspace on a branch, or pull/merge request, for which a prebuild exists, the workspace loads much faster, because all dependencies are already downloaded and the code is compiled. For more information, see prebuilds.
+
+1. Share with your team 🚀
 
 > **Note on editors!** - TypeScript has great support in [every editor](http://www.typescriptlang.org/index.html#download-links), but this project has been pre-configured for use with [VS Code](https://code.visualstudio.com/).
 Throughout the README We will try to call out specific places where VS Code really shines or where this project has been set up to take advantage of specific features.
 
 Finally, navigate to `http://localhost:3000` and you should see the template being served and rendered locally!
-
-# Deploying the app
-There are many ways to deploy a Node app, and in general, nothing about the deployment process changes because you're using TypeScript.
-In this section, I'll walk you through how to deploy this app to Azure App Service using the extensions available in VS Code because I think it is the easiest and fastest way to get started, as well as the most friendly workflow from a developer's perspective.
-
-## Prerequisites
-- [**Azure account**](https://azure.microsoft.com/en-us/free/) - If you don't have one, you can sign up for free.
-The Azure free tier gives you plenty of resources to play around with including up to 10 App Service instances, which is what we will be using.
-- [**VS Code**](https://code.visualstudio.com/) - We'll be using the interface provided by VS Code to quickly deploy our app.
-- [**Azure App Service VS Code extension**](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureappservice) - In VS Code, search for `Azure App Service` in the extension marketplace (5th button down on the far left menu bar), install the extension, and then reload VS Code.
-- **Create a cloud database** -
-For local development, running MongoDB on localhost is fine, however once we deploy we need a database with high availability.
-The easiest way to achieve this is by using a managed cloud database.
-There are many different providers, but the easiest one to get started with is [MongoDB Atlas](#create-a-managed-mongodb-with-atlas).
-- **SendGrid Account** -
-If you don't have one, you can sign up for free, we will need it to send emails. There are many different providers that Nodemailer supports ([Well-known services](https://nodemailer.com/smtp/well-known/)), we'll be using [SendGrid](#sendgrid-account).
-
-### Create a managed MongoDB with Atlas
-1. Navigate to [MongoDB's website](https://www.mongodb.com/cloud/atlas), sign up for a free account, and then log in.
-2. After creating the account, enter the organization name, project name, and select your preferred language (JavaScript).
-3. Select the **Shared Cluster** to get a free version with up to 512 MB storage which is great for development purposes.
-4. On the "Create a Starter Cluster" page you can select cloud provider, region, region, cluster tier, and
-MongoDB settings, like version and backup frequency (Note: there is no option to create backups in the free tier).
-5. If you already know to which cloud provider and region you want to deploy later, you should select the same here for best performance. Otherwise select a region close to the location where you plan to deploy the application later.
-6. Select **M0 Sandbox** as the Cluster Tier, give your cluster a name, and then click the "Create Cluster" button.
-7. It will now take a couple of minutes to create the cluster and you will be redirected to the MongoDB Atlas Admin interface.
-8. Now you must configure access and security before you can use the database.
-9. To whitelist an IP address, go to the **Network Access** section and click the "Add IP Address" button. For local development you can select your current IP address.
-10. Create a user by selecting the **Add New Database User** in Database Access, adding a username and password (Password Authentication method) and give him read and write access to any database within the cluster.
-A user account is required to connect to the database, so remember these values because you will need them as part of your connection string.
-11. Within the Clusters section, click the **Connect** button in your cluster to connect to the database.
-12. You could now connect to the cluster using [MongoDB Compass](https://www.mongodb.com/products/compass), which is a graphical interface (GUI) to interact with the database.
-13. But we need to select **Connect your application** to get the connection string, it should look like this: `mongodb+srv://<username>:<password>@your-cluster.12abc.mongodb.net/your-database?retryWrites=true&w=majority`
-and replace `<username>` and `<password>` with the credentials you just created.
-Back in your project, open your `.env` file and update `MONGODB_URI` with your new connection string.
-    > NOTE! - If you don't have an `.env` file yet, rename `.env.example` to `.env` and follow the comments to update the values in that file.
-14. **Success!**
-You can test that it works locally by updating `MONGODB_URI_LOCAL` to the same connection string you just updated in `MONGO_URI`.
-After rebuilding/serving, the app should work, but users that were previously created in local testing will not exist in the new database!
-Don't forget to return the `MONGO_URI_LOCAL` to your local test database (if you so desire).
-
-You can find **more information** about how to get started with Atlas [here](https://docs.atlas.mongodb.com/getting-started/).
-
-### SendGrid Account
-1. Navigate to [SendGrid's Website](https://sendgrid.com/), sign up for a free account, and complete the verification process.
-2. Open your `.env` file and update `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` with your SendGrid username and password respectively.
-
-## Deploying to Azure App Service
-Deploying from VS Code can be broken into the following steps:
-1. Authenticate your Azure account in VS Code
-2. Build your app
-3. Zip deploy using the Azure App Service extension
-
-### Sign in to your Azure account
-1. Open VS Code
-2. Expand the Azure App Service menu in the explorer menu
-    - If you don't see this, you might not have the `Azure App Service` extension installed.
-    See the pre-reqs section.
-3. Click `Sign in to Azure...`
-4. Choose `Copy & Open` from the resulting dialog
-    - This will open `aka.ms/devicelogin` in a browser window.
-    If it doesn't, just navigate there manually.
-5. Paste in the code that is on your clipboard.
-6. Go back to VS Code, you should now be signed in.
-You can confirm that everything worked by seeing your Azure subscription listed in the Azure App Service section of the explorer window.
-Additionally, you should see the email associated with your account listed in the status bar at the bottom of VS Code.
-
-### Build the app
-Building the app locally is required to generate a zip to deploy because the App Service won't execute build tasks.
-Build the app however you normally would:
-- `ctrl + shift + b` - kicks off default build in VS Code
-- execute `npm run build` from a terminal window
-
-### Zip deploy from VS Code
-1. Make sure your app is built, whatever is currently in your `dist` and `node_modules` folders will be the app that is deployed.
-2. Click the blue up arrow (Deploy to Web App) on the Azure App Service section of the explorer window.
-3. Choose the entire project directory.
-If you haven't changed the name, this will be `TypeScript-Node-Starter`.
-4. Choose the subscription you want this app to be billed to (don't worry, it will be free).
-5. Choose `Create New Web App`
-6. Enter a globally unique name -
-This will be part of the URL that azure generates, so it has to be unique, but if you're planning on adding a custom domain later, it's not that important. I usually just add random numbers to the end of the app name, ie. typescript-node-starter-15121214.
-7. Choose a resource group -
-If you don't know what this is, just create a new one.
-If you have lots of cloud resources that should be logically grouped together (think an app service, and a database that supports that app) then you would want to put them in the same resource group.
-This can always be updated later though.
-If you create a new resource group, you'll also be prompted to pick a location for that group.
-Pick something geographically close to where your users are.
-8. Choose `Create new App Service Plan` -
-An app service plan mainly is what determines the size and cost of the hardware your app will run on, but it also manages some other settings which we can ignore for now.
-9. Choose `B1 - Basic` - This one is free.
-If you know what you're doing, feel free to select a stronger pricing tier.
-10. Choose your target node runtime version - We are deploying to Linux machines, and in addition we can choose the exact node runtime we want.
-If you don't know what you want, choose whatever the current LTS build is.
-11. Grab a cup of coffee - You'll see everything you just selected getting created in the output window.
-All of this is powered by the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/overview?view=azure-cli-latest) and can be easily replicated if you decide you want to customize this process.
-This deployment is not the fastest option (but it is the easiest!). We are literally bundling everything in your project (including the massive node_modules folder) and uploading it to our Azure app service. Times will vary, but as a baseline, my deployment took roughly 6 minutes.
-12. Add `NODE_ENV` environment variable - In the App Service section of the explorer window, expand the newly created service, right click on **Application Settings**, select **Add New Settings...**, and add `NODE_ENV` as the key and `production` as the value.
-This setting determines which database to point to.
-If you haven't created a cloud database yet, see [the setup instructions](#Create a managed MongoDB with MongoLab).
-13. Profit! If everything worked you should see a page that looks like this: [TypeScript Node Starter Demo Site](https://typescript-node-starter.azurewebsites.net/)
-
-### Troubleshooting failed deployments
-Deployment can fail for various reasons, if you get stuck with a page that says *Service Unavailable* or some other error, [open an issue](https://github.com/Microsoft/TypeScript-Node-Starter/issues/new) and I'll try to help you resolve the problems.
 
 # TypeScript + Node
 In the next few sections I will call out everything that changes when adding TypeScript to an Express project.
