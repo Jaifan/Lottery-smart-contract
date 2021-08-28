@@ -1,6 +1,6 @@
-# A Typescrpipt / Node.js template on Gitpod
+# A TypeScript / Node.js template on Gitpod
 
-This is a [Typescrpipt / Node.js](https://github.com/microsoft/TypeScript-Node-Starter) template configured for ephemeral development environments on [Gitpod](https://www.gitpod.io/).
+This is a [TypeScript / Node.js](https://github.com/microsoft/TypeScript-Node-Starter) template configured for ephemeral development environments on [Gitpod](https://www.gitpod.io/).
 
 ## Next Steps
 
