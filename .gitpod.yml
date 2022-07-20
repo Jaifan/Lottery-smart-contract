@@ -13,7 +13,7 @@ tasks:
   - init: |
       npm install
       npm run build
-    command: |
+  - command: |
       npm run start
 
 vscode:
