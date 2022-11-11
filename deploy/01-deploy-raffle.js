@@ -42,6 +42,11 @@ module.exports = async function({getNamedAccounts, deployments}){
         waitConfirmations: waitConfirmations,
     })
 
+    if(developmentChains.includes(network.name)){
+        const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+        vrfCoordinatorV2Mock.addConsumer(subcribeId,raffle.address)
+    }
+
     if(!developmentChains.includes(network.name)){ //EthScanAPI
         log("Verifying....");
         await verify(raffle.address, arguments);
