@@ -4,9 +4,9 @@ const {developmentChains,networkConfig} = require("../../helper-hardhat-config")
 
 !developmentChains.includes(network.name) ? describe.skip
 : describe("Raffle Hardhat Unit Test...!",function (){
-    let deployer,vrfCoordinatorV2Mock,raffle, raffleContract,enterceFee,interval
+    let deployer,accounts,vrfCoordinatorV2Mock,raffle, raffleContract,enterceFee,interval
     beforeEach(async ()=>{
-        const accounts = await ethers.getSigners()
+        accounts = await ethers.getSigners()
         deployer = accounts[0]
         await deployments.fixture(["all"])
         vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
@@ -108,11 +108,36 @@ const {developmentChains,networkConfig} = require("../../helper-hardhat-config")
             ).to.be.revertedWith("nonexistent request")
         })
         it("Pick a winner and make the player list zero",async()=>{
-            const NumberOfPlayer = 4;
-            for(let i = 1;i<NumberOfPlayer;i++){
-                
+            const numberPlayer = 4;
+            for(let i= 1; i<numberPlayer;i++){
+                const raffle2 = raffleContract.connect(accounts[i])
+                await raffle2.enterRaffle({value: enterceFee})
             }
+            await new Promise(async(resolve,reject)=>{
+                try{
+                    const txRes = await raffle.performUpkeep("0x")
+                    const txRep = await txRes.wait(1)
+                    await vrfCoordinatorV2Mock.fulfillRandomWords(txRep.events[1].args.requestId,raffle.address)
+                    raffle.once("WinnerPicked", async()=> {
+                        const recentWinner = await raffle.getRecentWinner()
+                        const palyerRolled = await raffle.getNumberOfPlayers() 
+                        let accountValid = false
+                        for(let i=0; i<4;i++){
+                            if(accounts[i].address == recentWinner) {                            
+                                accountValid = true
+                            }
+                        }
+                        assert(accountValid)
+                        assert.equal(palyerRolled == 0)
+                        
+                    })
+                    resolve()
+                } catch{
+                    reject()
+                }
+                
+            })
         })
-        
+        //yarn hardhat test --grep "Pick a winner and make the player list zero"
     })
 })

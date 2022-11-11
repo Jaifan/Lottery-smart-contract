@@ -48,4 +48,7 @@ contractSizer: {
       default:1,
     },
   },
+  mocha: {
+    timeout: 50000, // 500 seconds max for running tests
+},
 };
